@@ -7,7 +7,7 @@ async index(request, response) {
   const [count] = await connection('incidents').count();
 
   const incidents = await connection('incidents')
-    .join('ongs', 'ong_id', '=', 'incidents.ong_id')
+    .join('ongs', 'ongs.id', '=', 'incidents.ong_id')
     .limit(5)
     .offset((page - 1) * 5)
     .select([
@@ -19,7 +19,7 @@ async index(request, response) {
       'ongs.uf'
     ]);
 
-  response.header('X-Tocal-Count', count['count(*)']);
+  response.header('X-Total-Count', count['count(*)']);
 
   return response.json(incidents)
 },
